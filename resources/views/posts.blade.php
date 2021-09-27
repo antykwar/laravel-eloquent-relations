@@ -14,6 +14,7 @@
                         <ul>
                             @foreach($post->tags as $tag)
                                 <li>{{ $tag->name }}</li>
+                                <li>{{ $tag->pivot->created_at }}</li>
                             @endforeach
                         </ul>
                     </td>

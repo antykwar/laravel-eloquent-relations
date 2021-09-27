@@ -5,10 +5,39 @@ namespace Database\Seeders;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use Faker\Generator;
+use Illuminate\Container\Container;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+    /**
+     * The current Faker instance.
+     *
+     * @var \Faker\Generator
+     */
+    protected $faker;
+
+    /**
+     * Create a new seeder instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->faker = $this->withFaker();
+    }
+
+    /**
+     * Get a new Faker instance.
+     *
+     * @return \Faker\Generator
+     */
+    protected function withFaker()
+    {
+        return Container::getInstance()->make(Generator::class);
+    }
+
     /**
      * Seed the application's database.
      *
@@ -31,12 +60,16 @@ class DatabaseSeeder extends Seeder
         Post::factory(2)
             ->create();
 
-        Post::all()->each(static function($post) {
-            $amount = random_int(0, 5);
+        Post::all()->each(function($post) {
+            $amount = random_int(1, 3);
 
             if ($amount) {
                 $tags = Tag::inRandomOrder()->take($amount)->get();
-                $post->tags()->attach($tags);
+                $statusData = [];
+                $tags->each(function($tag) use (&$statusData) {
+                    $statusData[$tag->id] = ['status' => $this->faker->word()];
+                });
+                $post->tags()->attach($statusData);
             }
         });
     }

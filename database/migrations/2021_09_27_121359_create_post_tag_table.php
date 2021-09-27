@@ -17,6 +17,8 @@ class CreatePostTagTable extends Migration
             $table->id();
             $table->foreignId('post_id')->constrained('posts');
             $table->foreignId('tag_id')->constrained('tags');
+            $table->string('status');
+            $table->timestamps();
         });
     }
 
