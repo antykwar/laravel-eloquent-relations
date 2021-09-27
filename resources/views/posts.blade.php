@@ -6,10 +6,10 @@
     </head>
     <body class="antialiased">
         <table>
-            @foreach($users as $user)
+            @foreach($posts as $post)
                 <tr>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->address->country }}</td>
+                    <td>{{ $post->title }}</td>
+                    <td>{{ optional($post->user)->name }}</td>
                 </tr>
             @endforeach
         </table>

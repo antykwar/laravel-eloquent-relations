@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Address;
+use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,6 +17,14 @@ class DatabaseSeeder extends Seeder
     {
          User::factory(3)
                 ->hasAddress(1)
+                ->hasPosts(3)
+             ->create();
+
+         User::factory(2)
+                ->hasAddress(1)
+             ->create();
+
+         Post::factory(2)
              ->create();
     }
 }
