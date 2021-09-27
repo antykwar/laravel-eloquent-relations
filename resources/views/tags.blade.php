@@ -6,14 +6,13 @@
     </head>
     <body class="antialiased">
         <table>
-            @foreach($posts as $post)
+            @foreach($tags as $tag)
                 <tr>
-                    <td>{{ $post->title }}</td>
-                    <td>{{ optional($post->user)->name }}</td>
+                    <td>{{ $tag->name }}</td>
                     <td>
                         <ul>
-                            @foreach($post->tags as $tag)
-                                <li>{{ $tag->name }}</li>
+                            @foreach($tag->posts as $post)
+                                <li>{{ $post->title }}</li>
                             @endforeach
                         </ul>
                     </td>

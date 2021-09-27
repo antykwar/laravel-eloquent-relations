@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,11 @@ Route::get('/users', function () {
 });
 
 Route::get('/posts', function () {
-    $posts = Post::get();
+    $posts = Post::with('user', 'tags')->get();
     return view('posts', ['posts' => $posts]);
+});
+
+Route::get('/tags', function () {
+    $tags = Tag::with('posts')->get();
+    return view('tags', ['tags' => $tags]);
 });
