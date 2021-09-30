@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Post;
+use App\Models\Project;
 use App\Models\Tag;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +31,9 @@ Route::get('/posts', function () {
 Route::get('/tags', function () {
     $tags = Tag::with('posts')->get();
     return view('tags', ['tags' => $tags]);
+});
+
+Route::get('/projects', function() {
+    $project = Project::find(2);
+    return $project->tasks;
 });

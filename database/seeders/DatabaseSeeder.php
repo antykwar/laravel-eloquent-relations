@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Post;
+use App\Models\Project;
 use App\Models\Tag;
+use App\Models\Task;
 use App\Models\User;
 use Faker\Generator;
 use Illuminate\Container\Container;
@@ -63,13 +65,26 @@ class DatabaseSeeder extends Seeder
         Post::all()->each(function($post) {
             $amount = random_int(1, 3);
 
+            $tags = Tag::inRandomOrder()->take($amount)->get();
+            $statusData = [];
+            $tags->each(function($tag) use (&$statusData) {
+                $statusData[$tag->id] = ['status' => $this->faker->word()];
+            });
+            $post->tags()->attach($statusData);
+        });
+
+        Project::factory(2)
+            ->create();
+
+        User::all()->each(function($user) {
+            $project = Project::inRandomOrder()->first();
+            $user->project_id = $project->id;
+            $user->save();
+
+            $amount = random_int(0, 5);
+
             if ($amount) {
-                $tags = Tag::inRandomOrder()->take($amount)->get();
-                $statusData = [];
-                $tags->each(function($tag) use (&$statusData) {
-                    $statusData[$tag->id] = ['status' => $this->faker->word()];
-                });
-                $post->tags()->attach($statusData);
+                Task::factory($amount)->create(['user_id' => $user->id]);
             }
         });
     }
