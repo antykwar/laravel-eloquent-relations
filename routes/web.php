@@ -22,14 +22,6 @@ Route::get('/users', function () {
 });
 
 Route::get('/posts', function () {
-    $post = Post::all()->first();
-
-    $post->tags()->attach([
-        1 => [
-            'status' => 'approved'
-        ]
-    ]);
-
     $posts = Post::with('user', 'tags')->get();
     return view('posts', ['posts' => $posts]);
 });

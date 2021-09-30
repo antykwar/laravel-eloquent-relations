@@ -16,7 +16,7 @@ class PostTag extends Pivot
         parent::boot();
 
         static::created(static function($postTag){
-            dd('Added tag to post', $postTag);
+            //
         });
     }
 }
