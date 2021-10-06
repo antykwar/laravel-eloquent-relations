@@ -73,19 +73,28 @@ class DatabaseSeeder extends Seeder
             $post->tags()->attach($statusData);
         });
 
-        Project::factory(2)
+        Project::factory(5)
             ->create();
 
         User::all()->each(function($user) {
-            $project = Project::inRandomOrder()->first();
-            $user->project_id = $project->id;
-            $user->save();
+            $project1 = Project::inRandomOrder()->first();
+            $project2 = Project::inRandomOrder()->first();
+            $user->projects()->attach([$project1->id, $project2->id]);
 
             $amount = random_int(0, 5);
-
             if ($amount) {
                 Task::factory($amount)->create(['user_id' => $user->id]);
             }
         });
+
+        Project::all()->each(function($project) {
+            $user1 = User::inRandomOrder()->first();
+            $user2 = User::inRandomOrder()->first();
+            $user3 = User::inRandomOrder()->first();
+            $project->users()->attach([$user1->id, $user2->id, $user3->id]);
+        });
+
+        User::inRandomOrder()->first()->projects()->detach();
+        Project::inRandomOrder()->first()->users()->detach();
     }
 }

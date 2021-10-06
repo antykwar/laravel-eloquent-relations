@@ -52,9 +52,9 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
-    public function project()
+    public function projects()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsToMany(Project::class);
     }
 
     public function tasks()

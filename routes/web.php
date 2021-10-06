@@ -34,6 +34,6 @@ Route::get('/tags', function () {
 });
 
 Route::get('/projects', function() {
-    $project = Project::find(2);
+    $project = Project::find(1);
     return $project->tasks;
 });

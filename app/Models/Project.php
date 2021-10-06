@@ -11,16 +11,18 @@ class Project extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public function tasks()
     {
-        return $this->hasManyThrough(Task::class, User::class);
-    }
-
-    public function task()
-    {
-        return $this->hasOneThrough(Task::class, User::class);
+        return $this->hasManyThrough(
+            Task::class,
+            Team::class,
+            'project_id',
+            'user_id',
+            'id',
+            'user_id'
+        );
     }
 }
