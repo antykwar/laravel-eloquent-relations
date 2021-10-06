@@ -1,10 +1,12 @@
 <?php
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +36,13 @@ Route::get('/tags', function () {
 });
 
 Route::get('/projects', function() {
-    $project = Project::find(1);
-    return $project->tasks;
+    return Project::find(1)->tasks;
+});
+
+Route::get('/comments', function() {
+    $post = Post::find(1);
+    $video = Video::find(1);
+    $comment = Comment::find(1);
+
+    return [$post->comment, $video->comments, $comment->subject];
 });

@@ -2,11 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Project;
 use App\Models\Tag;
 use App\Models\Task;
 use App\Models\User;
+use App\Models\Video;
 use Faker\Generator;
 use Illuminate\Container\Container;
 use Illuminate\Database\Seeder;
@@ -55,6 +57,15 @@ class DatabaseSeeder extends Seeder
                ->hasPosts(3)
             ->create();
 
+        Video::factory(5)
+            ->create();
+
+        Video::all()->each(function($video) {
+            $user = User::inRandomOrder()->first();
+            $comment = Comment::factory()->make(['user_id' => $user->id]);
+            $video->comments()->save($comment);
+        });
+
         User::factory(2)
             ->hasAddress(1)
             ->create();
@@ -64,6 +75,10 @@ class DatabaseSeeder extends Seeder
 
         Post::all()->each(function($post) {
             $amount = random_int(1, 3);
+
+            $user = User::inRandomOrder()->first();
+            $comment = Comment::factory()->make(['user_id' => $user->id]);
+            $post->comments()->save($comment);
 
             $tags = Tag::inRandomOrder()->take($amount)->get();
             $statusData = [];
