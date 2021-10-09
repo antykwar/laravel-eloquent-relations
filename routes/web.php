@@ -46,3 +46,26 @@ Route::get('/comments', function() {
 
     return [$post->comment, $video->comments, $comment->subject];
 });
+
+Route::get('/tags-polymorph', function () {
+    /*$post = Post::find(1);
+    $post->tags_polymorph()->create([
+        'name' => 'Polymorph'
+    ]);
+    $tag = Tag::create([
+        'name' => 'Polymorph 3'
+    ]);
+    $post->tags_polymorph()->attach($tag);
+
+    $video = Video::find(1);
+    $video->tags_polymorph()->create([
+        'name' => 'Polymorph 4'
+    ]);
+    $tag = Tag::where('name', 'Polymorph')->first();
+    $video->tags_polymorph()->attach($tag);
+
+    return [$post->tags_polymorph, $video->tags_polymorph];*/
+
+    $tag = Tag::where('name', 'Polymorph')->first();
+    return $tag->posts_polymorph;
+});

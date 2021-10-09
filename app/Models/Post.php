@@ -32,4 +32,9 @@ class Post extends Model
     {
         return $this->morphOne(Comment::class, 'commentable');
     }
+
+    public function tags_polymorph()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }
