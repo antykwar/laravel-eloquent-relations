@@ -111,5 +111,26 @@ class DatabaseSeeder extends Seeder
 
         User::inRandomOrder()->first()->projects()->detach();
         Project::inRandomOrder()->first()->users()->detach();
+
+        Tag::all()->each(function($tag) {
+            $post1 = Post::inRandomOrder()->first();
+            $post2 = Post::inRandomOrder()->first();
+            $video1 = Video::inRandomOrder()->first();
+            $video2 = Video::inRandomOrder()->first();
+            $tag->posts_polymorph()->attach([$post1->id, $post2->id]);
+            $tag->videos_polymorph()->attach([$video1->id, $video2->id]);
+        });
+
+        Post::all()->each(function($post) {
+            $tag1 = Tag::inRandomOrder()->first();
+            $tag2 = Tag::inRandomOrder()->first();
+            $post->tags_polymorph()->attach([$tag1->id, $tag2->id]);
+        });
+
+        Video::all()->each(function($video) {
+            $tag1 = Tag::inRandomOrder()->first();
+            $tag2 = Tag::inRandomOrder()->first();
+            $video->tags_polymorph()->attach([$tag1->id, $tag2->id]);
+        });
     }
 }
